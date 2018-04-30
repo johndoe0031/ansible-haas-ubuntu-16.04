@@ -1,0 +1,11 @@
+---
+ansible_python_interpreter: /usr/bin/python3
+ansible_ssh_private_key_file: "~/.ssh/id_rsa"
+
+mono_keyserver: hkp://keyserver.ubuntu.com:80
+mono_apt_key_id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+mono_apt_repository: deb https://download.mono-project.com/repo/ubuntu stable-xenial main
+mono_package: mono-complete
+
+haas_archive_name: "linux32.tar.gz"
+...

@@ -1,0 +1,51 @@
+---
+# Install Haas app
+
+- name: Create haas dir
+  file:
+    path: /root/haas
+    state: directory
+
+- name: Copy Haas application files
+  unarchive:
+    src: "roles/haas/files/{{ haas_archive_name }}"
+    dest: /root/haas/
+
+- name: Run Haas update script
+  shell: 
+    chdir: /root/haas
+    cmd: ./BetaUpdate.sh
+
+
+- name: Run Haas Server to create initial configs
+  shell: sh /root/haas/Haasbot.sh
+  async: 2592000
+  poll: 0
+
+- name: Kill Haas Server process
+  shell: killall mono
+
+- name: Remove lockfile
+  file:
+    state: absent
+    path: /tmp/HTS.exe.lock
+
+- name: Edit config. OpenInterfaceOnStartup=false
+  xml:
+    path: /root/HTS/Settings/MainSettings.XML
+    xpath: /TradeServerInstanceSettings/OpenInterfaceOnStartup
+    value: "false"
+
+- name: Edit config file. Set HostingAdres
+  xml:
+    path: /root/HTS/Settings/MainSettings.XML
+    xpath: /TradeServerInstanceSettings/HostingAdres
+    value: "{{ ansible_default_ipv4.address }}"
+
+- name: Run Haas Server
+  shell: sh /root/haas/Haasbot.sh
+  async: 30000000 # will run for about a year
+  poll: 0
+
+
+...

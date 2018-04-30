@@ -1,0 +1,23 @@
+---
+# Update packages
+
+- name: Run $ apt-get update
+  apt:
+    update_cache: yes
+
+- name: Run $ apt-get upgrade
+  apt:
+    upgrade: dist
+
+- name: Install apt packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - apt-transport-https
+    - python3-pip
+    - gnupg2
+
+- name: Run pip install lxml
+  pip:
+    name: lxml
+
+...

@@ -1,0 +1,20 @@
+---
+# Install Mono
+
+- name: Add mono apt key
+  apt_key:
+    keyserver: "{{ mono_keyserver }}"
+    id: "{{ mono_apt_key_id }}"
+    state: present
+
+- name: Add mono apt repo
+  apt_repository:
+    repo: "{{ mono_apt_repository }}"
+    state: present
+
+- name: Install mono
+  apt:
+    name: "{{ mono_package }}"
+    update_cache: yes
+    state: latest
+...

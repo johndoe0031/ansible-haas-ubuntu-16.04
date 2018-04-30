@@ -1,0 +1,11 @@
+---
+# This playbook installs HaasServer on Ubuntu 16.04 machine
+
+- name: Prepare instances, install and launch HaasServer
+  hosts: webservers
+  remote_user: root
+  roles: 
+    - install_dependencies
+    - mono
+    - haas
+...
